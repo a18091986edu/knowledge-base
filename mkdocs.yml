@@ -6,9 +6,9 @@ theme:
   name: material
   features:
     - navigation.tabs        # вкладки в главном меню
-    - navigation.sections    # секции в сайдбаре
     - navigation.tabs.sticky # Закрепленные вкладки
-    - navigation.expand      # раскрытие текущей секции в сайдбаре
+    # - navigation.sections    # секции в сайдбаре
+    # - navigation.expand      # раскрытие текущей секции в сайдбаре
     - navigation.instant     # мгновенная навигация
     - navigation.top         # кнопка "наверх"
     - navigation.tracking    # отслеживание позиции
