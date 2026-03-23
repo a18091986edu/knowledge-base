@@ -7,8 +7,8 @@ theme:
   features:
     - navigation.tabs        # вкладки в главном меню
     - navigation.tabs.sticky # Закрепленные вкладки
-    # - navigation.prune
-    - navigation.sections    # секции в сайдбаре
+    - navigation.prune
+    # - navigation.sections    # секции в сайдбаре
     # - navigation.expand      # раскрытие текущей секции в сайдбаре
     - navigation.instant     # мгновенная навигация
     - navigation.top         # кнопка "наверх"
@@ -68,7 +68,7 @@ nav:
   
   - DevOps:
     - devops.md
-    - 'Основы Linux': themes/linux.md
+    - Основы Linux: themes/linux.md
     - Контейнеризация:
       - Docker: themes/docker.md
       - Kubernetes: themes/kubernetes.md
@@ -76,7 +76,7 @@ nav:
       - GitHub Actions: themes/github-actions.md
       - GitLab CI: themes/gitlab-ci.md
   
-  - 'Python':
+  - Python:
     - python.md
     - Основы:
       - Синтаксис: python/syntax.md
