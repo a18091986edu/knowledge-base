@@ -78,3 +78,25 @@ services:
 
 volumes:
   postgres_data:
+
+
+
+  ## Docker {#docker}
+
+### Что такое Docker?
+Docker — это платформа для разработки, доставки и запуска приложений в контейнерах.
+
+### 📦 Пример Dockerfile
+
+??? example "Dockerfile для Python приложения"
+    {% include "themes/docker/dockerfile-example.md" %}
+
+### 🚀 Docker Compose
+
+??? example "Docker Compose для приложения с базой данных"
+    {% include "themes/docker/docker-compose-example.md" %}
+
+### 💻 Полезные команды Docker
+
+??? tip "Основные команды Docker"
+    {% include "themes/docker/docker-commands.md" %}
