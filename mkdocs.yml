@@ -1,0 +1,56 @@
+site_name: Моя База Знаний
+site_url: https://a18091986edu.github.io/my-knowledge-base/
+repo_url: https://github.com/a18091986edu/knowledge-base
+
+theme:
+  name: material
+  features:
+    - navigation.tabs        # вкладки в главном меню
+    - navigation.sections    # секции в сайдбаре
+    - navigation.top         # кнопка "наверх"
+    - navigation.tracking    # отслеживание позиции
+    - search.suggest         # подсказки в поиске
+    - search.highlight       # подсветка в поиске
+    - content.code.copy      # копирование кода
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences      # для сворачиваемых блоков
+  - pymdownx.details          # для сворачиваемых блоков
+  - admonition                # для заметок
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true  # Для более красивого оформления
+  - pymdownx.details  # Для ??? блоков
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Главная: index.md
+  - DevOps: devops.md
+  - Python: python.md
+  - Frontend: frontend.md
+  - ML: ml.md
