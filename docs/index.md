@@ -7,7 +7,7 @@
 - **[DevOps](devops.md)** - Программа изучения DevOps инструментов
 - **[Python](python.md)** - Примеры кода и best practices
 - **[Frontend](frontend.md)** - Современный фронтенд разработка
-- **[Frontend](ml.md)** - Машинное обучение
+- **[ML](ml.md)** - Машинное обучение 
 
 ## Навигация
 
