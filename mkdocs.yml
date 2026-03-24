@@ -56,6 +56,13 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 # Для поддержки include
 plugins:
@@ -64,61 +71,32 @@ plugins:
       include_dir: docs
 
 nav:
-  - Главная: index.md
+  # - Главная: index.md
   
   - DevOps:
-    - devops.md
-    - Основы Linux: themes/linux.md
-    - Контейнеризация:
-      - Docker: themes/docker.md
-      - Kubernetes: themes/kubernetes.md
-    - CI/CD:
-      - GitHub Actions: themes/github-actions.md
-      - GitLab CI: themes/gitlab-ci.md
+    - devops/devops.md
   
   - Python:
-    - python.md
-    - Основы:
-      - Синтаксис: python/syntax.md
-      - Структуры данных: python/data-structures.md
+    - python/python.md
     - Веб-фреймворки:
-      - Flask: python/flask.md
-      - Django: python/django.md
-      - FastAPI: python/fastapi.md
-    - Асинхронность: python/async.md
+      - FastAPI: python/fastapi/fastapi.md
+    - Документирование: 
+      - MkDoks: 
+        # - python/docs/mkdocs/mkdocs.md
+        - Развертаывание: python/docs/mkdocs/mkdocs-deploy.md
+        - Написание документации: python/docs/mkdocs/mkdocs-doc.md
   
-  - Frontend:
-    - frontend.md
-    - JavaScript:
-      - Основы: frontend/js-basics.md
-      - ES6+: frontend/es6.md
-    - Фреймворки:
-      - React: frontend/react.md
-      - Vue: frontend/vue.md
+  # - ML:
   
-  - ML:
-    - ml.md
-    - Машинное обучение:
-      - Scikit-learn: ml/scikit-learn.md
-      - TensorFlow: ml/tensorflow.md
-    - Глубокое обучение:
-      - PyTorch: ml/pytorch.md
-      - Keras: ml/keras.md
-  - ML1111111231:
-    - ml.md
-  - ML112312312311111:
-    - ml.md
-  - ML111231231231123123123111:
-    - ml.md
-  - ML1123112312312312323123:
-    - ml.md
-  - ML:
-    - ml.md
 extra:
   generator: false
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/yourusername
       name: GitHub
+
+extra_css:
+  - stylesheets/extra.css
+
 
 copyright: © 2024 Моя База Знаний
