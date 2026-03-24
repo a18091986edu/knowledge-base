@@ -3,17 +3,17 @@ site_url: https://a18091986edu.github.io/my-knowledge-base/
 repo_url: https://github.com/a18091986edu/knowledge-base
 
 theme:
-  name: material
+  name: materialx
   features:
     - navigation.tabs        # вкладки в главном меню
     - navigation.tabs.sticky # Закрепленные вкладки
     - navigation.prune
     # - navigation.sections    # секции в сайдбаре
-    # - navigation.expand      # раскрытие текущей секции в сайдбаре
+    - navigation.expand      # раскрытие текущей секции в сайдбаре
     - navigation.instant     # мгновенная навигация
     - navigation.top         # кнопка "наверх"
     - navigation.tracking    # отслеживание позиции
-    # - navigation.indexes
+    - navigation.indexes
     - search.suggest         # подсказки в поиске
     - search.highlight       # подсветка в поиске
     - content.code.copy      # копирование кода
@@ -104,8 +104,16 @@ nav:
     - Глубокое обучение:
       - PyTorch: ml/pytorch.md
       - Keras: ml/keras.md
-
-
+  - ML1111111231:
+    - ml.md
+  - ML112312312311111:
+    - ml.md
+  - ML111231231231123123123111:
+    - ml.md
+  - ML1123112312312312323123:
+    - ml.md
+  - ML:
+    - ml.md
 extra:
   generator: false
   social:

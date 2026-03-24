@@ -1,3 +1,6 @@
 pymdown-extensions
-mkdocs-material 
+# mkdocs-materialx
+# shadcn
+# bootstrap
+mkdocs-materialx 
 mkdocs-macros-plugin
