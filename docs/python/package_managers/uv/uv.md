@@ -12,7 +12,7 @@ UV позволяет:
 - интегрировать окружение с уже существующим venv poetry
 - запускать скрипты Python c зависимостями, указываемыми напрямую в команде
 
-UV является точкой входа для запуска Ruff, который заменяет цеый зоопарк инструментов:
+UV является точкой входа для запуска Ruff, который заменяет целый зоопарк инструментов:
 
 - pylint - [линтер](../../../glossary/glossary.md#glossary-linter), медленный и сложный анализатор кода
 - flake8 - проверка стиля и поиск ошибок
@@ -43,7 +43,7 @@ Add-Content -Path $PROFILE -Value '(& uv generate-shell-completion powershell) |
 
 ## Основные команды
 
-???+ tip "основные команды"
+??? tip "основные команды"
 {% include "python/package_managers/uv/parts/general_comands.md" %}
 
 
