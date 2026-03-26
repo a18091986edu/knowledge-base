@@ -74,7 +74,15 @@ nav:
   # - Главная: index.md
   
   - DevOps:
-    - devops/devops.md
+    # - devops/devops.md
+    - Docker:
+      - devops/docker/docker.md
+    - Linux: 
+      - devops/linux/linux.md
+
+  - ML:
+    - CUDA: ml/cuda/cuda.md
+    
   
   - Python:
     - python/python.md

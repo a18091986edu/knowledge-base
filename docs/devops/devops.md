@@ -80,14 +80,14 @@ Docker — это платформа для разработки, доставк
 ### 📦 Пример Dockerfile
 
 ??? example "Dockerfile для Python приложения"
-    {% include "devops/docker/examples/dockerfile-example.md" %}
+    {% include "devops/docker/parts/dockerfile-example.md" %}
 
 ### 🚀 Docker Compose
 
 ??? example "Docker Compose для приложения с базой данных"
-    {% include "devops/docker/examples/docker-compose-example.md" %}
+    {% include "devops/docker/parts/docker-compose-example.md" %}
 
 ### 💻 Полезные команды Docker
 
 ??? tip "Основные команды Docker"
-    {% include "devops/docker/examples/docker-commands.md" %}
+    {% include "devops/docker/parts/docker-commands.md" %}
