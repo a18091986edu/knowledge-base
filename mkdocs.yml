@@ -77,6 +77,8 @@ nav:
     - devops/devops.md
     - Docker:
       - devops/docker/docker.md
+      - Установка Windows в docker:
+        - devops/docker/windows_in_docker.md
     - Linux: 
       - devops/linux/linux.md
 

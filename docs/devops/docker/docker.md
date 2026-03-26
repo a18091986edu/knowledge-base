@@ -14,14 +14,31 @@ sudo usermod -aG docker $USER
 
 ## Основные команды
 
-???+ tip "Основные команды"
+??? tip "Основные команды"
 {% include "devops/docker/parts/docker-commands.md" %}
 
 
 ## Dockerfile
 
-???+ tip "Dockerfile"
+??? tip "Dockerfile"
 {% include "devops/docker/parts/dockerfile.md" %}
+
+## Публикация образа в dockerhub
+    # 1. Сборка образа
+    docker build -t myapp:latest .
+
+    # 2. Логин в Docker Hub
+    docker login
+
+    # 3. Тегирование для Docker Hub
+    docker tag myapp:latest username/myapp:latest
+
+    # 4. Отправка в Docker Hub
+    docker push username/myapp:latest
+
+    # 5. Запуск с Docker Hub (на любом сервере)
+    docker run -d -p 1111:1111 --name myapp username/myapp:latest
+
 
 ## Portainer
 
