@@ -6,12 +6,22 @@
 
 ## Установка 
 
+```
 curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh ./get-docker.sh
+sudo usermod -aG docker $USER
+```
+
 
 ## Основные команды
 
 ???+ tip "Основные команды"
 {% include "devops/docker/parts/docker-commands.md" %}
+
+
+## Dockerfile
+
+???+ tip "Dockerfile"
+{% include "devops/docker/parts/dockerfile.md" %}
 
 ## Portainer
 
@@ -32,3 +42,9 @@ portainer/portainer-ce:lts
 ## Полезное
 
 - [DocsDocker](https://docs.docker.com/)
+- [HUB](https://hub.docker.com/)
+
+## Курсы | Материалы
+
+- [STEPIK | Docker для начинающих + практический опыт](https://stepik.org/course/123300/syllabus)
+- [RotoroCloud](https://rotoro.cloud/landing.html)

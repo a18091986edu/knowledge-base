@@ -74,7 +74,7 @@ nav:
   # - Главная: index.md
   
   - DevOps:
-    # - devops/devops.md
+    - devops/devops.md
     - Docker:
       - devops/docker/docker.md
     - Linux: 
