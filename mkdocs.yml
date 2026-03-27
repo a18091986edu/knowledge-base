@@ -3,7 +3,7 @@ site_url: https://a18091986edu.github.io/my-knowledge-base/
 repo_url: https://github.com/a18091986edu/knowledge-base
 
 theme:
-  name: material
+  name: materialx
   icon:
     logo: material/head-question
   features:
