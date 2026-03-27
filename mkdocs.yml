@@ -81,7 +81,15 @@ nav:
       - Установка Windows в docker:
         - devops/docker/windows_in_docker.md
     - Linux: 
-      - devops/linux/linux.md
+        - devops/linux/linux.md
+        - основные команды:
+          - devops/linux/commands/commands.md
+        - алиасы для команд:
+          - devops/linux/alias/alias.md
+    - Ansible:
+      - devops/ansible/ansible.md
+    - jpath:
+      - devops/jpath/jpath.md
 
   - ML:
     - CUDA: ml/cuda/cuda.md
