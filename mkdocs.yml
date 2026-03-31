@@ -111,6 +111,9 @@ nav:
       - Создание пакета: python/package_managers/creating_package.md
     - Инструменты: 
       - ruff: python/tools/ruff/ruff.md
+  - Tools:
+    - Postman: tools/postman/postman.md
+    
   - Глоссарий: glossary/glossary.md
   
   
