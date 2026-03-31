@@ -1,67 +1,67 @@
- {% raw %}
-  ```yml
-  name: Deploy
+  {% raw %}
+    ```yml
+    name: Deploy
 
-  on:
-    push:
-      branches: [ main ]
+    on:
+      push:
+        branches: [ main ]
 
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
 
-        - name: Login to DockerHub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
+          - name: Login to DockerHub
+            uses: docker/login-action@v3
+            with:
+              username: ${{ secrets.DOCKERHUB_USERNAME }}
+              password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-        - name: Build and push image
-          run: |
-            docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest .
-            docker push ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
+          - name: Build and push image
+            run: |
+              docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest .
+              docker push ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
 
-        
-        # ========== КОПИРУЕМ deploy.yml НА СЕРВЕР ==========
-        - name: Copy deploy playbook to server
-          uses: appleboy/scp-action@v0.1.7
-          with:
-            host: ${{ secrets.SERVER_IP }}
-            username: ${{ secrets.SERVER_USER }}
-            key: ${{ secrets.SSH_KEY }}
-            source: "./playbook.yml"
-            target: "/home/${{ secrets.SERVER_USER }}/app"
-            strip_components: 1
-            overwrite: true
-
-        # ========== КОПИРУЕМ docker-compose.yml НА СЕРВЕР ==========
-        - name: Copy docker-compose.yml to server
-          uses: appleboy/scp-action@v0.1.7
-          with:
-            host: ${{ secrets.SERVER_IP }}
-            username: ${{ secrets.SERVER_USER }}
-            key: ${{ secrets.SSH_KEY }}
-            source: "./docker-compose.yml"
-            target: "/home/${{ secrets.SERVER_USER }}/app"
-            strip_components: 1
-            overwrite: true
-
-        # ========== ЗАПУСКАЕМ ANSIBLE НА СЕРВЕРЕ ==========
-        - name: Run Ansible playbook
-          uses: appleboy/ssh-action@v1
-          with:
+          
+          # ========== КОПИРУЕМ deploy.yml НА СЕРВЕР ==========
+          - name: Copy deploy playbook to server
+            uses: appleboy/scp-action@v0.1.7
+            with:
               host: ${{ secrets.SERVER_IP }}
               username: ${{ secrets.SERVER_USER }}
               key: ${{ secrets.SSH_KEY }}
-              script: |
-                  cd /home/${{ secrets.SERVER_USER }}/app
-                  ansible-playbook -i ~/ansible/inventory/hosts.ini playbook.yml \
-                      -e "postgres_user=${{ secrets.POSTGRES_USER }}" \
-                      -e "postgres_password=${{ secrets.POSTGRES_PASSWORD }}" \
-                      -e "postgres_db=${{ secrets.POSTGRES_DB }}"
-  ```
-  {% endraw %}
+              source: "./playbook.yml"
+              target: "/home/${{ secrets.SERVER_USER }}/app"
+              strip_components: 1
+              overwrite: true
+
+          # ========== КОПИРУЕМ docker-compose.yml НА СЕРВЕР ==========
+          - name: Copy docker-compose.yml to server
+            uses: appleboy/scp-action@v0.1.7
+            with:
+              host: ${{ secrets.SERVER_IP }}
+              username: ${{ secrets.SERVER_USER }}
+              key: ${{ secrets.SSH_KEY }}
+              source: "./docker-compose.yml"
+              target: "/home/${{ secrets.SERVER_USER }}/app"
+              strip_components: 1
+              overwrite: true
+
+          # ========== ЗАПУСКАЕМ ANSIBLE НА СЕРВЕРЕ ==========
+          - name: Run Ansible playbook
+            uses: appleboy/ssh-action@v1
+            with:
+                host: ${{ secrets.SERVER_IP }}
+                username: ${{ secrets.SERVER_USER }}
+                key: ${{ secrets.SSH_KEY }}
+                script: |
+                    cd /home/${{ secrets.SERVER_USER }}/app
+                    ansible-playbook -i ~/ansible/inventory/hosts.ini playbook.yml \
+                        -e "postgres_user=${{ secrets.POSTGRES_USER }}" \
+                        -e "postgres_password=${{ secrets.POSTGRES_PASSWORD }}" \
+                        -e "postgres_db=${{ secrets.POSTGRES_DB }}"
+    ```
+    {% endraw %}

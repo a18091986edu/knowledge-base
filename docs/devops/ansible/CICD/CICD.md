@@ -27,7 +27,7 @@ ansible/
 
 - копируем публичный ключ и переносим его на настраиваемый серевер в ~/.ssh/authorized_keys
 
-- ??? example "controller_config.sh"
+??? example "controller_config.sh"
 {% include "devops/ansible/CICD/parts/bootstrap.sh" %}
 
 
@@ -61,20 +61,20 @@ SERVER_USER
 SSH_KEY - приватный ключ для подклбчения в машине с Ansible (например, взять с машины, с которой захожу по SSH)
 ```
 
-???+ example "Dockerfile"
+??? example "Dockerfile"
 {% include "devops/ansible/CICD/parts/Dockerfile" %}
 
-???+ example "docker-compose.yml"
+??? example "docker-compose.yml"
 {% include "devops/ansible/CICD/parts/docker-compose.yml" %}
 
-???+ example "playbook.yml"
+??? example "playbook.yml"
 {% include "devops/ansible/CICD/parts/playbook.yml" %}
 
-???+ example "pyproject.toml"
+??? example "pyproject.toml"
 {% include "devops/ansible/CICD/parts/pyproject.toml" %}
 
-???+ example "main.py"
+??? example "main.py"
 {% include "devops/ansible/CICD/parts/main.py" %}
 
-???+ example "deploy.yml"
+??? example "deploy.yml"
 {% include "devops/ansible/CICD/parts/deploy.yml" %}

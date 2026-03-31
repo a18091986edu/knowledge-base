@@ -13,19 +13,19 @@ context-analyzer/
 │       └── cli.py
 ```
 
-???+ example "core"
+??? example "core"
 {% include "python/package_managers/parts/core.py" %}
 
-???+ example "cli"
+??? example "cli"
 {% include "python/package_managers/parts/cli.py" %}
 
-???+ example "core_text"
+??? example "core_text"
 {% include "python/package_managers/parts/core_text.py" %}
 
-???+ example "ignore"
+??? example "ignore"
 {% include "python/package_managers/parts/ignore.py" %}
 
-???+ example "pyproject.toml"
+??? example "pyproject.toml"
 {% include "python/package_managers/parts/pyproject.toml" %}
 
 
