@@ -88,8 +88,11 @@ nav:
           - devops/linux/alias/alias.md
     - Ansible:
       - devops/ansible/ansible.md 
-      - Lab1: devops/ansible/lab1/lab1.md
-      - Lab2: devops/ansible/lab1/lab2.md
+      - CICD Github Ansible: devops/ansible/CICD/CICD.md
+      - Lab1: 
+        - Vars|Conditions|Loops|Filter: devops/ansible/lab1/lab1.md
+        - Roles: devops/ansible/lab1/roles.md
+      - Материалы: devops/ansible/parts/materials.md
     - jpath:
       - devops/jpath/jpath.md
 

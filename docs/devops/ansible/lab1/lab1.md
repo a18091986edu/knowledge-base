@@ -46,3 +46,106 @@ ansible all -m ping
     "ping": "pong"              // ответ от модуля
 }
 ```
+
+??? example "Nginx Install Playbook"
+{% include "devops/ansible/lab1/parts/playbook_install_nginx.md" %}
+
+!!! tip "Запуск и проверка"
+```
+ansible-playbook -i /ansible/inventory.ini /ansible/playbook_01_nginx.yml
+
+# Проверяем, что Nginx работает
+curl http://172.25.0.11
+curl http://172.25.0.12
+
+# Или через Ansible
+ansible -i /ansible/inventory.ini web_servers -m uri -a "url=http://localhost"
+```
+
+??? example "Get Facts Playbook"
+{% include "devops/ansible/lab1/parts/playbook_facts.md" %}
+
+
+## Variables
+
+- Переменные в Ansible могут быть определены в разных местах. Создадим иерархию переменных
+
+!!! tip ""
+```
+# В контейнере ansible_controller
+cd /ansible
+# Создаем структуру директорий для переменных
+mkdir -p group_vars host_vars
+```
+
+??? example "create vars"
+{% include "devops/ansible/lab1/parts/vars/vars.md" %}
+
+??? example "test vars priority"
+{% include "devops/ansible/lab1/parts/vars/test_vars_priority.md" %}
+
+
+!!! tip ""
+```
+ansible-playbook -i /ansible/inventory.ini /ansible/test_vars_priority.yml
+```
+
+## Conditions
+
+
+??? example "conditions"
+{% include "devops/ansible/lab1/parts/test_conditions.md" %}
+
+!!! tip ""
+```
+# Для development окружения (по умолчанию)
+ansible-playbook -i /ansible/inventory.ini /ansible/deploy_web_app.yml
+
+# Для development окружения явно
+ansible-playbook -i /ansible/inventory.ini /ansible/deploy_web_app.yml -e "target_env=development"
+
+# Для production окружения
+ansible-playbook -i /ansible/inventory.ini /ansible/deploy_web_app.yml -e "target_env=production"
+```
+
+## Loops и JSON
+
+
+??? example "test loops"
+{% include "devops/ansible/lab1/parts/test_loops.md" %}
+
+!!! tip ""
+```
+ansible-playbook -i /ansible/inventory.ini /ansible/test_loops.yml
+```
+
+??? example "create users from json"
+{% include "devops/ansible/lab1/parts/create_users_from_json.md" %}
+
+
+!!! tip ""
+```
+ansible-playbook -i /ansible/inventory.ini /ansible/create_users_from_json.yml
+```
+
+## Filter
+
+??? example "filters"
+{% include "devops/ansible/lab1/parts/test_filters.md" %}
+
+!!! tip ""
+```
+ansible-playbook -i /ansible/inventory.ini /ansible/test_filters.yml
+```
+
+## Vars + Conditions + Loops + Filter Example
+
+??? example "deploy web app"
+{% include "devops/ansible/lab1/parts/deploy_web_app.md" %}
+
+!!! tip ""
+```
+ansible-playbook -i /ansible/inventory.ini /ansible/deploy_web_app.yml -e "environment=development"
+ansible-playbook -i /ansible/inventory.ini /ansible/deploy_web_app.yml -e "environment=production"
+
+```
