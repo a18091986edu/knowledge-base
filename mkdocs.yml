@@ -108,6 +108,7 @@ nav:
         - Развертывание: python/docs/mkdocs/mkdocs-deploy.md
     - Пакетные менеджеры: 
       - UV: python/package_managers/uv/uv.md
+      - Создание пакета: python/package_managers/creating_package.md
     - Инструменты: 
       - ruff: python/tools/ruff/ruff.md
   - Глоссарий: glossary/glossary.md
