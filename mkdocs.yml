@@ -89,9 +89,8 @@ nav:
     - Ansible:
       - devops/ansible/ansible.md 
       - CICD Github Ansible: devops/ansible/CICD/CICD.md
-      - Lab1: 
-        - Vars|Conditions|Loops|Filter: devops/ansible/lab1/lab1.md
-        - Roles: devops/ansible/lab1/roles.md
+      - Vars|Conditions|Loops|Filter: devops/ansible/vars_cond_loops_filter.md
+      - Roles: devops/ansible/roles.md    
       - Материалы: devops/ansible/parts/materials.md
     - jpath:
       - devops/jpath/jpath.md
