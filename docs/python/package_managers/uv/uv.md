@@ -104,7 +104,11 @@ uv run pre-commit install
 теперь при каждом запуске git commit автоматические будет вызывать ruff для проверки кода
 
 ## Интеграция в CI/CD
+.github/workflows/ci.yml
 
+```
+uv add ruff --dev
+```
 ```
 name: CI
 
@@ -122,6 +126,26 @@ jobs:
       - name: Run checks
         run: uv run ruff check
 
+```
+
+- установка текущего проета в режим разработки. весь исходный код надо разместить в /src. импорты в любом файле проекта должны работать корректно
+
+```
+ uv pip install -e .
+```
+- для запуска uv run app
+
+```
+[project.scripts]
+app = "main:start"
+```
+```
+def start():
+    uvicorn.run(app="main:app", reload=True, port=8001)
+
+
+if __name__ == "__main__":
+    start()
 ```
 
 ## [Публикация проекта с помощью UV](https://stepik.org/lesson/1986391/step/1?unit=2014285)

@@ -101,8 +101,11 @@ nav:
   
   - Python:
     - python/python.md
+    - Основы: python/basics/basics.md
     - Веб-фреймворки:
-      - FastAPI: python/fastapi/fastapi.md
+      - FastAPI: 
+        - python/fastapi/fastapi.md
+        - Alembic: python/fastapi/alembic.md
     - Документирование: 
       - MkDoks: 
         - Развертывание: python/docs/mkdocs/mkdocs-deploy.md
@@ -111,10 +114,15 @@ nav:
       - Создание пакета: python/package_managers/creating_package.md
     - Инструменты: 
       - ruff: python/tools/ruff/ruff.md
+    - Интересные задачи:
+      - python/interesting_tasks/interesting_tasks.md
+    - Интересные ресурсы:
+      - python/interesting_resources/interesting_resources.md
   - Tools:
     - Postman: tools/postman/postman.md
     
   - Глоссарий: glossary/glossary.md
+  - Посмотреть: to_see/to_see.md
   
   
 extra:
