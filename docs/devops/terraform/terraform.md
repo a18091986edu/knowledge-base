@@ -1,0 +1,1 @@
+- [inzhenerka.tech](https://inzhenerka.tech/members/courses/course101035542574/infrastructure-as-code-iac--terraform-912534977068)

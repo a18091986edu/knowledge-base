@@ -86,6 +86,10 @@ nav:
           - devops/linux/commands/commands.md
         - алиасы для команд:
           - devops/linux/alias/alias.md
+    - CI/CD:
+      - devops/cicd/cicd.md
+    - Terraform:
+      - devops/terraform/terraform.md
     - Ansible:
       - devops/ansible/ansible.md 
       - CICD Github Ansible: devops/ansible/CICD/CICD.md

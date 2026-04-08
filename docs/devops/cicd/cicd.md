@@ -1,0 +1,1 @@
+- [inzhenerka.tech](https://inzhenerka.tech/members/courses/course101035542574/nepreryvnaa-integracia-ci--github-actions-927483479972)
