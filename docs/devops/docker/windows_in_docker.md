@@ -1,6 +1,6 @@
 [Dockur Windows Git](https://github.com/dockur/windows?tab=readme-ov-file){:target="_blank"} (конфигурации, аргументы)
 
-стандартный логин-пароль docker-admin
+стандартный логин-пароль Docker-admin
 
 
 ## установка на windows

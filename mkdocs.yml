@@ -122,8 +122,20 @@ nav:
       - python/interesting_tasks/interesting_tasks.md
     - Интересные ресурсы:
       - python/interesting_resources/interesting_resources.md
+  - LowCode:
+      - N8N: LowCode/N8N/n8n.md
   - Tools:
     - Postman: tools/postman/postman.md
+    - VPN: tools/vpn.md
+    - Terminal: tools/terminal.md
+    - VirtualPay: tools/VirtualPay.md
+    - Hosting: tools/hosting.md
+    - VirtualSim: tools/VirtualSim.md
+    - Claude: tools/IDE/Claude/claude.md
+    - Cursor: tools/IDE/Cursor/cursor.md
+  - ToSee: to_see/to_see.md
+
+
     
   - Глоссарий: glossary/glossary.md
   - Посмотреть: to_see/to_see.md

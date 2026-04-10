@@ -1,0 +1,4 @@
+- [Ботанутый Костя](https://www.youtube.com/@kosti_neuro)
+- [Ботанутый Костя](https://youtu.be/n_eWuKdYHUs)
+- [Ботанутый Костя](https://youtu.be/qbcNsSrzKxI)
+- [Приложение надо?](https://dzen.ru/need_an_app?tab=longs)
