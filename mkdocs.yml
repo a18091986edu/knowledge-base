@@ -125,6 +125,7 @@ nav:
   - LowCode:
       - N8N: LowCode/N8N/n8n.md
   - Tools:
+    - Git: tools/git/git.md
     - Postman: tools/postman/postman.md
     - VPN: tools/vpn.md
     - Terminal: tools/terminal.md

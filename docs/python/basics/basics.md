@@ -16,3 +16,5 @@
 - [Stepik Атомный курс про Python](https://stepik.org/lesson/2156736/step/1?unit=2188382){target="_blank"}
 
 - [Stepik Атомный курс про Python](https://stepik.org/lesson/2162506/step/1?unit=2194190){target="_blank"}
+
+- [Stepik Learning Python Together](https://stepik.org/lesson/1448048/step/1?unit=1466949)
