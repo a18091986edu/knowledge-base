@@ -1,1 +1,3 @@
-[Termius](https://termius.com/index.html)
+- [Termius](https://termius.com/index.html){target='_blank'}
+- [Tabby](https://tabby.sh/){target='_blank'}
+- [Reach](https://github.com/Textualize/rich/){target='_blank'}
