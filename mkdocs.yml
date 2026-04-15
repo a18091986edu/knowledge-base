@@ -154,6 +154,8 @@ nav:
       - infisical: tools/vaults_storage/infisical.md
       - vaultwarden: tools/vaults_storage/vaultwarden.md
     - Nginx / Nginx Proxy Manager: tools/nginx/nginx.md
+    - Network Tunneling: tools/network_tunneling.md
+      
 
 
   - Basics:
