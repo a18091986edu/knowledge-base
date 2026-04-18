@@ -100,10 +100,15 @@ nav:
           - devops/linux/commands/commands.md
         - алиасы для команд:
           - devops/linux/alias/alias.md
-    - Zabbix: devops/zabbix/zabbix.md    
+    - Monitoring: 
+      - Zabbix: devops/monitoring/zabbix/zabbix.md    
+      - Prometheus: devops/monitoring/prometheus/prometheus.md    
 
     - CI/CD:
-      - devops/cicd/cicd.md
+      - devops/CICD/CICD.md
+      - Github Actions: devops/CICD/github/github_actions.md
+      - GitlabCI: devops/CICD/gitlab/GitlabCI.md
+      - Jenkins: devops/CICD/Jenkins/jenkins.md
     - Terraform:
       - devops/terraform/terraform.md
     - Ansible:
@@ -111,7 +116,9 @@ nav:
       - CICD Github Ansible: devops/ansible/CICD/CICD.md
       - Vars|Conditions|Loops|Filter: devops/ansible/vars_cond_loops_filter.md
       - Roles: devops/ansible/roles.md    
+      - PlaybookExamples: devops/ansible/playbooks_examples.md
       - Материалы: devops/ansible/parts/materials.md
+      - Заметки: devops/ansible/notes.md
     - jpath:
       - devops/jpath/jpath.md
 
@@ -162,9 +169,7 @@ nav:
     - Привязка домена к серверу: basics/DNS.md  
   - Глоссарий: glossary/glossary.md
   - Посмотреть: to_see/to_see.md
-  
-
-  
+  # - Шпаргалки: CheatSheet.md  
   
 extra:
   generator: false

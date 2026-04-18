@@ -1,3 +1,6 @@
+- [Хабр](https://habr.com/ru/companies/gnivc/articles/977196/){target='_blank'}
+
+
 ## 🔐 Vault + FastAPI + Nginx Proxy Manager Stack
 
 ---
