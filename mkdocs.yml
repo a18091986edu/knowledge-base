@@ -75,6 +75,7 @@ nav:
   
   - DevOps:
     - devops/devops.md
+    - "Linux: основы для инженера": gigadevops/linux.md
     - Docker:
       - devops/docker/docker.md
       - Установка Windows в docker: devops/docker/windows_in_docker.md
@@ -148,7 +149,10 @@ nav:
   - LowCode:
       - N8N: LowCode/N8N/n8n.md
   - Tools:
-    - Git: tools/Git/git.md
+    - Git: 
+      - Git: tools/Git/git.md
+      - glab: tools/Git/glab/glab.md
+      - gh: tools/Git/gh/gh.md
     - Postman: tools/postman/postman.md
     - VPN: tools/vpn.md
     - Terminal: tools/terminal.md

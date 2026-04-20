@@ -1,0 +1,1 @@
+- [Stepik. Мониторинг IT (базовый)](https://stepik.org/lesson/1679322/step/1?unit=1702445){target="_blank"}
