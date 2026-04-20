@@ -1,19 +1,16 @@
+# Управление пакетами
 
-## 📦 Управление программным обеспечением
+Акцент на **Debian/Ubuntu (APT)**. Для Fedora/RHEL смотри таблицу эквивалентов в конце.
 
-??? tip "🔄 Обновление пакетов"
-    ### 🔄 Обновление пакетов
+!!! note "Дистрибутив"
+    Пути к репозиториям и имена команд на других семействах отличаются.
 
-    Обновление системы в APT состоит из двух этапов:
+---
 
-    - обновление списка пакетов
-    - обновление установленных пакетов
+## Обновление индекса и пакетов
 
-    Дополнительные команды:
-
-    - full-upgrade → обновление с изменением зависимостей
-    - upgrade --with-new-pkgs → установка новых зависимостей при апгрейде
-    - list --upgradable → показать пакеты, которые можно обновить
+??? tip "apt update / upgrade"
+    Сначала обновляется **список** пакетов, затем сами пакеты.
 
     ```bash
     sudo apt update
@@ -23,174 +20,115 @@
     apt list --upgradable
     ```
 
+    `full-upgrade` может тянуть новые зависимости — на проде в окне обслуживания.
 
-??? tip "📥 Установка пакетов"
-    ### 📥 Установка пакетов
+---
 
-    Установка пакетов из репозиториев APT.
+## Установка и удаление
 
-    Возможности:
-    - установка из официальных репозиториев
-    - установка конкретной версии
-    - установка без подтверждения
-
+??? tip "install, remove, purge"
     ```bash
     sudo apt install nginx
     sudo apt install -y htop
     sudo apt install nginx=1.18.*
-    ```
 
-
-??? tip "📦 Snap пакеты"
-    ### 📦 Snap пакеты
-
-    Snap — альтернативная система пакетов от Canonical.
-
-    Особенности:
-    - изолированные (sandbox)
-    - включают зависимости внутри пакета
-    - работают на разных дистрибутивах
-    - медленнее APT, но более универсальны
-
-    Основные команды:
-
-    ```bash
-    snap install nginx
-    snap remove nginx
-    snap list
-    snap refresh
-    snap info nginx
-    ```
-
-    Отличие от APT:
-    - APT → системные пакеты Linux
-    - Snap → контейнеризированные приложения
-
-
-??? tip "❌ Удаление пакетов"
-    ### ❌ Удаление пакетов
-
-    Удаление пакетов может быть:
-
-    - remove → удаляет программу, оставляет конфиги
-    - purge → удаляет полностью, включая конфигурацию
-
-    ```bash
     sudo apt remove nginx
     sudo apt purge nginx
     ```
 
+---
 
-??? tip "📄 Список установленных пакетов"
-    ### 📄 Список установленных пакетов
+## Что установлено и что ставили вручную
 
-    Просмотр всех установленных пакетов в системе:
+??? tip "dpkg, apt list, apt-mark"
+    Все пакеты:
 
     ```bash
     dpkg -l
     apt list --installed
     ```
 
-    Используется для:
-    - аудита системы
-    - поиска установленных пакетов
-    - диагностики окружения
+    Только **явно** установленные вами (без авто-зависимостей):
 
+    ```bash
+    apt-mark showmanual
+    apt-mark showmanual | head -20
+    ```
 
-??? tip "🧹 Очистка системы"
-    ### 🧹 Очистка системы
+    Фильтры:
 
-    Очистка ненужных пакетов и кеша:
+    ```bash
+    dpkg -l | grep '^ii'
+    dpkg -l | grep -E '^ii\s+nginx'
+    apt list --installed 2>/dev/null | grep nginx
+    ```
 
+---
+
+## Поиск и метаданные
+
+??? tip "search, show, policy"
+    ```bash
+    apt search nginx
+    apt show curl
+    apt-cache policy nginx
+    ```
+
+---
+
+## Очистка
+
+??? tip "autoremove, clean"
     ```bash
     sudo apt autoremove
     sudo apt autoclean
     sudo apt clean
     ```
 
+---
 
-??? tip "🔍 Поиск пакетов"
-    ### 🔍 Поиск пакетов
+## Локальный .deb и репозитории
 
-    Поиск пакетов в репозиториях:
-
+??? tip "dpkg -i и PPA"
     ```bash
-    apt search nginx
-    apt list --installed
-    apt list --upgradable
-    ```
-
-
-??? tip "📄 Информация о пакете"
-    ### 📄 Информация о пакете
-
-    Просмотр информации о пакете:
-
-    ```bash
-    apt show nginx
-    apt-cache policy nginx
-    ```
-
-    Показывает:
-    - версию
-    - репозиторий
-    - зависимости
-
-
-??? tip "📦 Работа с .deb пакетами"
-    ### 📦 Работа с .deb пакетами
-
-    Установка локальных deb пакетов:
-
-    ```bash
-    sudo dpkg -i file.deb
+    sudo dpkg -i файл.deb
     sudo apt -f install
-    ```
 
-
-??? tip "⚙️ Репозитории"
-    ### ⚙️ Репозитории
-
-    Управление источниками пакетов:
-
-    ```bash
-    add-apt-repository ppa:repo/name
+    sudo add-apt-repository ppa:repo/name
     sudo apt update
-
     cat /etc/apt/sources.list
     ls /etc/apt/sources.list.d/
     ```
 
+---
 
-??? tip "🔄 Сравнение пакетных менеджеров"
-    ### 🔄 Сравнение пакетных менеджеров
+## Snap
 
-    Основные системы:
-
-    - APT → Debian / Ubuntu
-    - DNF → Fedora / RHEL (новый стандарт)
-    - YUM → устаревший RHEL/CentOS
-    - PACMAN → Arch Linux
+??? tip "snap"
+    Изолированные пакеты от Canonical; медленнее APT, но переносимее.
 
     ```bash
-    # APT
-    sudo apt update && sudo apt upgrade
-
-    # DNF
-    sudo dnf upgrade
-
-    # YUM
-    sudo yum update
-
-    # PACMAN
-    sudo pacman -Syu
+    snap install имя
+    snap remove имя
+    snap list
+    snap refresh
+    snap info имя
     ```
 
-    Установка:
+---
+
+## Другие дистрибутивы
+
+??? tip "Сопоставление команд"
+    | Debian / Ubuntu | Fedora / RHEL |
+    |-----------------|---------------|
+    | `apt update && apt upgrade` | `dnf upgrade` |
+    | `apt install` | `dnf install` |
+    | `apt show` | `dnf info` |
+    | `dpkg -l` | `rpm -qa` / `dnf list installed` |
 
     ```bash
-    sudo apt install nginx
-    sudo dnf install nginx
-    sudo yum install nginx
+    # Arch
+    sudo pacman -Syu
     sudo pacman -S nginx
     ```

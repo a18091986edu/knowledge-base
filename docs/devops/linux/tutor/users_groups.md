@@ -1,221 +1,139 @@
-# 👥 Управление пользователями и группами
+# Пользователи и группы
+
+Создание учёток, членство в группах, `sudo`, файлы `/etc/passwd`, `/etc/group`, `/etc/shadow`.
 
 ---
 
-## 👤 Пользователи
+## Создание и удаление пользователей
 
-??? tip "👤 Создание и удаление пользователей"
-
-    ### 👤 Создание и удаление пользователей
+??? tip "useradd / adduser"
     ```bash
-    useradd user              # создать пользователя
-    useradd -m user           # создать с домашней папкой
+    useradd user
+    useradd -m user
+    adduser user              # Ubuntu: интерактивно, home + пароль
 
-    adduser user              # интерактивное создание (Ubuntu)
-
-    passwd user               # задать/изменить пароль
-
-    userdel user              # удалить пользователя
-    userdel -r user           # удалить с домашней папкой
+    passwd user
+    userdel user
+    userdel -r user           # с home
     ```
 
-    📌 Разница:
-    - `useradd` — низкоуровневая команда
-    - `adduser` — удобная обёртка (создаёт home, задаёт пароль)
+    `useradd` — низкоуровнево; `adduser` — удобная обёртка.
 
 ---
 
-## 👥 Группы
+## Группы
 
-??? tip "👥 Группы и членство"
-
-    ### 👥 Группы и членство
+??? tip "Членство"
     ```bash
     groupadd group
-    addgroup group            # аналог (Ubuntu)
-
+    addgroup group
     groupdel group
 
     usermod -aG group user    # добавить в группу
-    deluser user group        # удалить из группы
+    deluser user group        # Debian: убрать из группы
 
-    groups user               # список групп
+    groups user
     ```
 
-    ⚠️ Важно:
-    ```bash
-    usermod -G group user     # ❌ перезапишет группы
-    usermod -aG group user    # ✅ добавит
-    ```
+    ⚠️ `usermod -G` без `-a` **перезапишет** все группы.
 
 ---
 
-## 🔄 Переключение и sudo
+## Переключение и sudo
 
-??? tip "🔄 Переключение пользователей"
-
-    ### 🔄 Переключение пользователей
+??? tip "su и sudo"
     ```bash
     su user
-    su - user                 # с окружением
-    ```
-
----
-
-??? tip "🛡️ sudo"
-
-    ### 🛡️ sudo
-    ```bash
-    sudo command
+    su - user
+    sudo команда
     sudo -i
-    sudo su
-    ```
-
-    ```bash
     usermod -aG sudo user
     ```
 
-    📌 После изменения групп → перелогиниться
+    После смены групп — перелогинься.
+
+??? tip "sudoers"
+    ```bash
+    sudo visudo
+    ```
+
+    Пример строки: `user ALL=(ALL:ALL) ALL`
 
 ---
 
-## ⚙️ Управление пользователем
+## usermod и блокировка
 
-??? tip "⚙️ usermod"
-
-    ### ⚙️ Управление пользователем (usermod)
+??? tip "usermod"
     ```bash
-    usermod -L user
-    usermod -U user
-
+    usermod -L user            # заблокировать
+    usermod -U user            # разблокировать
     usermod -d /home/new user
     usermod -s /bin/bash user
     ```
 
-    🔒 Блокировка:
-    - в `/etc/shadow` перед паролем появляется `!`
-
 ---
 
-## 🆔 Идентификаторы и активность
+## UID, активные сессии
 
-??? tip "🆔 UID, GID и пользователи"
-
-    ### 🆔 UID, GID и активные пользователи
+??? tip "id, who"
     ```bash
     id user
     whoami
-
     users
     who
     w
     ```
 
-    📌 Типы пользователей:
-    - 0 → root
-    - 1–999 → системные
-    - 1000+ → обычные
+    Обычно: UID **0** — root; **1–999** — системные; **1000+** — обычные пользователи.
 
 ---
 
-## 📁 Системные файлы
+## Файлы учётных данных и getent
 
-??? tip "📁 Основные файлы"
-
-    ### 📁 Системные файлы
-    ```bash
-    cat /etc/passwd
-    cat /etc/group
-    sudo cat /etc/shadow
-    ```
-
-    📄 `/etc/passwd`:
+??? tip "passwd, group, shadow"
     ```text
-    user:x:UID:GID:comment:/home/user:/bin/bash
+    /etc/passwd   — логин, UID, GID, home, shell (пароль — поле x)
+    /etc/group    — группы и состав
+    /etc/shadow   — хэши и политика паролей (только root)
     ```
 
-    📄 `/etc/group`:
-    ```text
-    group:x:GID:user1,user2
+    Просмотр одной записи без `grep` по всему файлу:
+
+    ```bash
+    getent passwd имя
+    getent group sudo
     ```
 
-    🔒 `/etc/shadow`:
-    - хранит хэши паролей
-    - доступен только root
+    Пароли не хранят в world-readable `passwd`; реальные данные — в **`/etc/shadow`**.
 
 ---
 
-## 🛡️ sudoers
+## Практика
 
-??? tip "🛡️ Настройка sudo"
-
-    ### 🛡️ sudoers
+??? tip "Типовой серверный пользователь"
     ```bash
-    visudo
-    ```
-
-    📄 `/etc/sudoers`:
-    ```text
-    user ALL=(ALL:ALL) ALL
-    ```
-
-    Где:
-    - кто → откуда → как → какие команды
-
----
-
-## ⚙️ Дополнительно
-
-??? tip "⚙️ Дополнительные параметры"
-
-    ### ⚙️ Дополнительно
-    ```bash
-    useradd -D
-
-    useradd -g group user
-    useradd -G g1,g2 user
-    ```
-
----
-
-## 🚀 Практика
-
-??? tip "🚀 Типичный workflow (сервер)"
-
-    ### 🚀 Типичный workflow
-    ```bash
-    # 1. Создать пользователя
     adduser deploy
-
-    # 2. Дать sudo права
     usermod -aG sudo deploy
-
-    # 3. Проверить
     id deploy
-
-    # 4. Переключиться
     su - deploy
-
-    # 5. Проверить sudo
     sudo whoami
     ```
 
----
-
-??? tip "🔐 Best practice (production)"
-
-    ### 🔐 Усиленный вариант
+??? tip "SSH-ключи"
     ```bash
     useradd -m -s /bin/bash deploy
-
     passwd deploy
-
     usermod -aG sudo deploy
-
-    mkdir /home/deploy/.ssh
-    nano /home/deploy/.ssh/authorized_keys
-
+    mkdir -p /home/deploy/.ssh
+    # вставить ключ в authorized_keys
     chown -R deploy:deploy /home/deploy/.ssh
     chmod 700 /home/deploy/.ssh
     chmod 600 /home/deploy/.ssh/authorized_keys
     ```
+
+---
+
+## Связь с другими уроками
+
+- Команды `whoami`, `which`, `file` — также в **Терминал**.
+- Права на `~/.ssh` — **Права доступа**.

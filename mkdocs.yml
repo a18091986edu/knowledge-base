@@ -75,32 +75,29 @@ nav:
   
   - DevOps:
     - devops/devops.md
-    - "Linux: основы для инженера": gigadevops/linux.md
     - Docker:
       - devops/docker/docker.md
       - Установка Windows в docker: devops/docker/windows_in_docker.md
     - Linux: 
-        - devops/linux/linux.md
+        - Манифест: devops/linux/linux.md
         - материалы: devops/linux/materials.md
         - Учебник: 
+          - "Порядок тем": devops/linux/poryadok-tem.md
           - Терминал: devops/linux/tutor/terminal.md
-          - Файловые редакторы: devops/linux/tutor/file_editors.md
           - Файловая система: devops/linux/tutor/filesystem.md
-          - Управление пользователями и группами: devops/linux/tutor/users_groups.md
           - Права доступа: devops/linux/tutor/permissions.md
+          - Управление пользователями и группами: devops/linux/tutor/users_groups.md
           - Потоки и обработка данных: devops/linux/tutor/streams.md
-          - Инструменты мониторинга: devops/linux/tutor/monitoring_tools.md
+          - Bash: devops/linux/tutor/bash_scripts.md
           - Управление программным обеспечением: devops/linux/tutor/software_management.md
-          - Планировщик задач: devops/linux/tutor/task_scheduler.md
+          - Инструменты мониторинга: devops/linux/tutor/monitoring_tools.md
           - Управление сервисами: devops/linux/tutor/services_management.md
           - Cеть: devops/linux/tutor/network.md
           - Работа с фаерволом: devops/linux/tutor/firewall.md
-          - Bash: devops/linux/tutor/bash_scripts.md
+          - Планировщик задач: devops/linux/tutor/task_scheduler.md
+          - Файловые редакторы: devops/linux/tutor/file_editors.md
           - Утилиты: devops/linux/tutor/tools.md
-        - основные команды:
-          - devops/linux/commands/commands.md
-        - алиасы для команд:
-          - devops/linux/alias/alias.md
+          - "Команды и алиасы": devops/linux/tutor/commands_aliases.md
     - Monitoring: 
       - Zabbix: devops/monitoring/zabbix/zabbix.md    
       - Prometheus: devops/monitoring/prometheus/prometheus.md    

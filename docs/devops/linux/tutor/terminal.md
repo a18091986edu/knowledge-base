@@ -1,182 +1,185 @@
-## 🐧 Основы работы в терминале
+# Терминал: оболочка, файлы, поиск
+
+Один вход в Linux для ежедневной работы: клавиши, история, навигация, просмотр, `find`/`grep`, сведения о системе и типах файлов.
 
 ---
-??? tip "⌨️ Основы работы в терминале"
 
-    ### ⌨️ Горячие клавиши терминала
+## Горячие клавиши и справка
+
+??? tip "Клавиши и восстановление"
     ```bash
-    Ctrl + U    # очистить текущую строку
-    Ctrl + R    # поиск по истории команд
-    Ctrl + D    # завершение ввода (EOF)
-    Ctrl + C    # прервать выполнение команды
-    Ctrl + L    # очистить экран
-
-    reset       # восстановить терминал при сбоях
-    clear       # очистить экран
+    Ctrl+U      # очистить строку
+    Ctrl+R      # поиск по истории
+    Ctrl+D      # EOF / выйти из ввода
+    Ctrl+C      # прервать команду
+    Ctrl+L      # очистить экран
+    reset       # «починить» терминал после мусора в выводе
+    clear       # только экран
     ```
 
-    ### 📚 Справочные команды
+??? tip "Документация к командам"
     ```bash
-    whatis ls       # краткое описание команды
-    man ls          # подробная документация
-    help cd         # builtin-команды shell
-    info ls         # расширенная документация
-
-    apropos copy    # поиск по описанию
-    man -k network  # аналог apropos
-    ```
-
-    ### 🕘 История команд
-    ```bash
-    history         # показать историю
-    history 20      # последние 20 команд
-
-    !10             # выполнить 10-ю команду
-    !-3             # выполнить команду 3 назад
-    !!              # повторить последнюю команду
-
-    Ctrl + R        # поиск по истории
-    history -c      # очистить историю
+    whatis ls
+    man ls
+    help cd           # встроенные команды bash
+    info ls
+    apropos copy
+    man -k network
     ```
 
 ---
 
-## 📁 Работа с файлами и папками
+## История команд
+
+??? tip "history, !!, !$"
+    ```bash
+    history
+    history 20
+    !10               # выполнить 10-ю команду из истории
+    !-3
+    !!                # повторить последнюю
+    !$                # последний аргумент предыдущей команды
+    sudo !!           # повторить последнюю с sudo
+    history -c        # очистить (осторожно)
+    ```
+
+    Файл: `~/.bash_history`. Размер задают `HISTSIZE`, `HISTFILESIZE`, опция `histappend` в `~/.bashrc`.
 
 ---
-??? tip "📁 Файлы и директории"
 
-    ### 📍 Навигация
+## Навигация и операции с файлами
+
+??? tip "Каталоги и список"
     ```bash
-    pwd             # текущая директория
+    pwd
+    cd
+    cd ~
+    cd -
+    cd ..
+    cd /
 
-    cd              # перейти в home
-    cd ~            # home
-    cd -            # предыдущая директория
-    cd /            # корень
-    cd ..           # вверх на уровень
+    ls
+    ls -a
+    ls -la
+    ls -lh
+    ls -lh -d */      # только подкаталоги текущей папки
+    ls -R
     ```
 
-    ### 📂 Просмотр содержимого
+??? tip "Создание, копирование, перемещение, удаление"
     ```bash
-    ls              # список файлов
-    ls -a           # включая скрытые
-    ls -la          # подробный список
-    ls -lh          # удобные размеры
-    ls -R           # рекурсивно
+    mkdir dir
+    mkdir -p a/b/c
+    touch f.txt
+    touch file{1..5}.txt
+
+    cp a b
+    cp -r dir1 dir2
+    cp -i a b
+
+    mv a b
+    mv dir1 dir2
+
+    rm f
+    rm -r dir
+    rm -rf dir        # ⚠️ безвозвратно
     ```
 
-    ### 📦 Создание
+??? tip "Вывод в файл и конкатенация"
     ```bash
-    mkdir dir                   # создать папку
-    mkdir -p dir1/dir2/dir3    # вложенные папки
-
-    touch file.txt             # создать файл
-    touch file{1..5}.txt       # несколько файлов
+    echo "x" > file
+    echo "y" >> file
+    printf "a\nb\n" > file
+    cat > file        # ввод до Ctrl+D
+    cat a b > out
     ```
 
-    ### 📝 Запись в файл
+??? tip "Дерево каталогов"
     ```bash
-    echo "Hello" > file.txt        # перезапись
-    echo "World" >> file.txt       # добавление
-
-    printf "line1\nline2\n" > file.txt
-
-    cat > file.txt                # ввод вручную
-    Ctrl + D
-
-    cat file1 file2 > result.txt  # объединение файлов
-    ```
-
-    ### 📋 Копирование
-    ```bash
-    cp file1 file2            # копировать файл
-    cp file /tmp/             # в директорию
-
-    cp f* /tmp/               # по шаблону
-    cp -r dir1 dir2           # папку
-
-    cp -i file1 file2         # с подтверждением
-    ```
-
-    ### 🚚 Перемещение
-    ```bash
-    mv file1 file2            # переименовать
-    mv file /tmp/             # переместить
-
-    mv f* /tmp/               # по шаблону
-    mv dir1 dir2              # папку
-    ```
-
-    ### ❌ Удаление
-    ```bash
-    rm file.txt               # удалить файл
-    rm -r dir                 # удалить папку
-
-    rm -f file.txt            # без подтверждения
-    rm -rf dir                # ⚠️ опасно
-    ```
-
-    ### 🌳 Структура
-    ```bash
-    tree                      # структура каталогов
-    tree -L 2                 # глубина 2
+    tree
+    tree -L 2
     ```
 
 ---
 
-## 📖 Просмотр файлов
+## Просмотр файлов
 
----
-??? tip "📖 Просмотр файлов"
-
-    ### 🔍 less (рекомендуется)
+??? tip "less, more, head, tail"
     ```bash
-    less file.txt
+    less file
+    less -N file
+    less -i file
+    less +/шаблон file
 
-    less -N file.txt          # номера строк
-    less -i file.txt          # игнор регистра
-    less +/text file.txt      # поиск при открытии
-    ```
+    more file
+    more -10 file
 
-    ### 📄 more
-    ```bash
-    more file.txt
-    more -10 file.txt
-    more +100 file.txt
-    ```
-
-    ### 🔝 head / tail
-    ```bash
-    head file.txt
-    head -10 file.txt
-    head -c 100 file.txt
-
-    tail file.txt
-    tail -f file.txt          # просмотр логов
+    head file
+    head -n 20 file
+    tail file
+    tail -f file      # лог в реальном времени
     ```
 
 ---
 
-## 🔍 Поиск файлов
+## Поиск файлов (`find`)
 
----
-??? tip "🔍 find"
-
+??? tip "find"
     ```bash
     find . -name "file.txt"
-    find . -iname "file*"         # без регистра
-
-    find . -type f                # файлы
-    find . -type d                # папки
-
-    find /dir -maxdepth 1
-    find / -maxdepth 2 -type f -name "*as*"
-
-    find . -size +10M             # >10MB
+    find . -iname 'file*'
+    find . -type f
+    find . -type d
+    find /var -maxdepth 2 -type d
+    find . -size +10M
+    find /home -type f -size +100M
+    find /tmp -type f -mtime -1      # изменялись за сутки
     ```
 
 ---
 
+## Поиск текста (`grep`)
 
+??? tip "grep"
+    ```bash
+    grep шаблон file
+    grep -E 'a|b' file
+    grep -r listen /etc/nginx/
+    grep ERROR app.log
+    ```
 
+    В связке с другими командами: `journalctl -b | grep -i fail` (подробнее о журнале — в разделе про systemd).
+
+---
+
+## Система и тип файла
+
+??? tip "uname"
+    ```bash
+    uname -a          # ядро, хост, архитектура
+    uname -r          # версия ядра
+    uname -m          # x86_64, aarch64, …
+    ```
+
+??? tip "Кто я, где команда, что за файл"
+    ```bash
+    whoami
+    who
+    w
+    id
+    which python3
+    whereis ls
+    type cd           # builtin или внешняя команда
+    file /bin/ls
+    stat путь_к_файлу
+    ```
+
+    Для учётных записей и `/etc/passwd` удобнее `getent` — см. раздел **Пользователи и группы**.
+
+---
+
+## Связанные разделы
+
+- Права на файлы (`chmod`/`chown`) — **Права доступа**.
+- Перенаправления и `|` — **Потоки и обработка данных**.
+- Диски, FHS, ссылки — **Файловая система**.

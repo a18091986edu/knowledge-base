@@ -1,122 +1,100 @@
+# systemd: сервисы, журнал, загрузка
 
-# ⚙️ systemd и systemctl
+**systemd** — обычно PID 1: юниты сервисов, цели (`multi-user.target`, `graphical.target`), **journald** для логов.
 
-??? tip "⚙️ systemd и systemctl"
-    ### ⚙️ systemd и systemctl
+---
 
-    systemd — это система инициализации Linux, которая управляет:
+## Идея и жизненный цикл сервиса
 
-    - сервисами (nginx, ssh, docker)
-    - запуском системы
-    - процессами в фоне
-    - логами через journald
-
-    systemctl — основной инструмент управления systemd.
-
-    📌 Основная идея:
-
+??? tip "Модель"
     ```text
-    сервис = unit
-    systemd = менеджер всех unit'ов
+    сервис = unit-файл
+    systemctl управляет запуском, остановкой, автозагрузкой
     ```
 
-
-??? tip "▶️ Управление сервисами"
-    ### ▶️ Управление сервисами
-
-    Управление жизненным циклом сервиса:
-
+??? tip "start, stop, restart, reload"
     ```bash
-    systemctl start nginx
-    systemctl stop nginx
-    systemctl restart nginx
-    systemctl reload nginx
+    sudo systemctl start nginx
+    sudo systemctl stop nginx
+    sudo systemctl restart nginx
+    sudo systemctl reload nginx
     ```
 
-    📌 Разница restart vs reload:
+    **restart** — новый процесс; **reload** — перечитать конфиг без полного обрыва (если сервис поддерживает).
 
-    - restart → полный перезапуск процесса
-    - reload → перечитать конфигурацию без остановки (если поддерживается)
-
-
-??? tip "📊 Состояние и автозапуск"
-    ### 📊 Состояние и автозапуск
-
-    Проверка состояния сервиса:
-
+??? tip "Статус и автозапуск"
     ```bash
     systemctl status nginx
     systemctl is-active nginx
     systemctl is-enabled nginx
+    sudo systemctl enable nginx
+    sudo systemctl disable nginx
     ```
 
-    📌 Что означают состояния:
+    Состояния: **active** / **inactive** / **failed**; **enabled** / **disabled**.
 
-    - active → работает
-    - inactive → остановлен
-    - failed → ошибка запуска
+---
 
-    📌 Автозапуск:
+## Журнал (journald)
 
-    ```bash
-    systemctl enable nginx
-    systemctl disable nginx
-    ```
-
-    - enable → запуск при старте системы
-    - disable → отключить автозапуск
-
-
-??? tip "📜 Логи systemd (journald)"
-    ### 📜 Логи systemd (journald)
-
-    journald — централизованная система логирования systemd.
-
-    📌 Основной просмотр:
-
+??? tip "journalctl"
     ```bash
     journalctl
     journalctl -u nginx
-    ```
-
-    📌 Логи привязаны к:
-
-    - сервису
-    - времени
-    - уровню ошибки
-
-
-??? tip "🔍 Фильтрация логов"
-    ### 🔍 Фильтрация логов
-
-    Фильтрация помогает быстро находить проблемы:
-
-    ```bash
     journalctl -u nginx -n 50
     journalctl -u nginx -f
     journalctl --since "1 hour ago"
     journalctl -p err
+    journalctl -b -p err..alert
     ```
 
-    📌 Используется для:
+??? tip "Логи прошлых загрузок"
+    ```bash
+    journalctl --list-boots
+    sudo journalctl -b -1
+    ```
 
-    - отладки сервисов
-    - анализа падений
-    - поиска ошибок
+---
 
+## Загрузка системы
 
-??? tip "⚙️ Unit-файлы (конфигурация сервисов)"
-    ### ⚙️ Unit-файлы (конфигурация сервисов)
+??? tip "UEFI или BIOS, GRUB"
+    ```bash
+    [ -d /sys/firmware/efi ] && echo UEFI || echo "Legacy BIOS / ВМ без EFI"
+    ls -la /boot
+    ```
 
-    Unit-файл описывает, как systemd запускает сервис.
+    - **`/boot/grub/grub.cfg`** — сгенерированный итог (не правят вручную).
+    - **`/etc/default/grub`** — параметры; после правок на Debian/Ubuntu: `sudo update-grub`.
 
-    📌 Расположение:
+??? tip "Цепочка загрузки"
+    1. Прошивка UEFI/BIOS  
+    2. Загрузчик (часто GRUB)  
+    3. Ядро + initramfs  
+    4. **systemd**  
+    5. Службы  
+    6. Вход пользователя (TTY или GUI)
+
+    ```mermaid
+    flowchart LR
+      A[UEFI/BIOS] --> B[GRUB]
+      B --> C[Ядро + initramfs]
+      C --> D[systemd]
+      D --> E[Службы]
+      E --> F[Вход]
+    ```
 
     ```bash
-    /etc/systemd/system/myapp.service
+    systemd-analyze
+    systemd-analyze blame | head -20
     ```
 
-    📌 Основные секции:
+---
+
+## Unit-файлы и применение правок
+
+??? tip "Пример unit"
+    Путь: `/etc/systemd/system/myapp.service`
 
     ```ini
     [Unit]
@@ -132,80 +110,41 @@
     WantedBy=multi-user.target
     ```
 
-    📌 Секции:
-
-    - Unit → описание и зависимости
-    - Service → как запускать
-    - Install → как включать автозапуск
-
-
-??? tip "🔄 Применение изменений systemd"
-    ### 🔄 Применение изменений systemd
-
-    После изменения unit-файлов systemd нужно обновить конфигурацию:
+    После правок:
 
     ```bash
-    systemctl daemon-reload
-    systemctl daemon-reexec
-    systemctl restart myapp
+    sudo systemctl daemon-reload
+    sudo systemctl restart myapp
     ```
 
-    📌 Разница:
+    `daemon-reexec` — редкий перезапуск самого systemd.
 
-    - daemon-reload → перечитать unit-файлы
-    - daemon-reexec → перезапуск самого systemd
+---
 
+## Диагностика
 
-??? tip "🚀 Практический workflow"
-    ### 🚀 Практический workflow
-
-    Типичный сценарий работы:
-
+??? tip "Сервис не стартует"
     ```bash
-    systemctl status nginx
-    journalctl -u nginx -n 50
-    systemctl restart nginx
-    ```
-
-    📌 Используется для:
-
-    - проверки сервиса
-    - диагностики
-    - быстрого рестарта
-
-
-??? tip "⚠️ Диагностика проблем"
-    ### ⚠️ Диагностика проблем
-
-    Если сервис не запускается:
-
-    ```bash
-    systemctl status myapp
+    systemctl status имя_сервиса
+    journalctl -u имя_сервиса -n 80 --no-pager
     journalctl -xe
     ```
 
-    📌 Что проверять:
+    Проверь: конфиг, права, файлы, занятость порта (`ss -tlnp`).
 
-    - ошибки конфигурации
-    - права доступа
-    - отсутствующие файлы
-    - порты
-
-
-??? tip "🧠 Полезные команды systemd"
-    ### 🧠 Полезные команды systemd
-
-    Дополнительные инструменты диагностики:
-
+??? tip "Обзор системы"
     ```bash
     systemctl list-units --type=service
     systemctl list-unit-files
+    systemctl --failed
     systemctl show nginx
-    systemctl kill nginx
     ```
 
-    📌 Используется для:
+---
 
-    - анализа системы
-    - поиска сервисов
-    - диагностики состояния
+## Когда «всё упало» (порядок действий)
+
+1. `uptime`, `free -h`, `df -h`, `df -hi`  
+2. `journalctl -b -p err..alert` или `dmesg -T | tail`  
+3. `ip a`, `ss -tlnp`  
+4. `systemctl --failed`

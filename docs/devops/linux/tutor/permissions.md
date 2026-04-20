@@ -1,255 +1,126 @@
-# 🔐 Права доступа и управление доступом
+# Права доступа
+
+Модель **rwx** для **владельца (u)**, **группы (g)** и **остальных (o)**. Каталоги: `r` — список имён, `w` — создавать/удалять записи, `x` — «вход» в каталог.
 
 ---
 
-## 📊 Просмотр и понимание прав
+## Просмотр
 
-??? tip "📊 Просмотр прав"
-
-    ### 📊 Просмотр прав
+??? tip "ls -l"
     ```bash
-    ls -l        # показать права, владельца, группу, размер, дату
-    ll           # alias для ls -l (если настроен)
+    ls -l
     ```
 
-    Пример:
-    ```text
-    -rwxr-xr-- 1 user group 1234 Apr 12 file
-    ```
-
-    Расшифровка:
-    - `-` → файл (`d` — директория)
-    - `rwx` → права владельца
-    - `r-x` → права группы
-    - `r--` → права остальных
-
-    📌 Для директорий:
-    - `r` → просмотр содержимого
-    - `w` → создание/удаление файлов
-    - `x` → вход в директорию
+    Пример: `-rwxr-xr-- 1 user group … file` — тип файла, три тройки прав, владелец, группа.
 
 ---
 
-## ✏️ Изменение прав (chmod)
+## chmod: символы и цифры
 
-??? tip "✏️ chmod (символьный режим)"
-
-    ### ✏️ chmod (символьный режим)
+??? tip "Символьный режим"
     ```bash
     chmod +x file
-    chmod o+w file
-    chmod go-rw file
-
-    chmod g+w,o+r file
-
+    chmod u+x,go-w file
     chmod u=rwx,g=rw,o=r file
     chmod a=rw file
+    chmod -R go-w dir
     ```
 
-    📌 Обозначения:
-    - `u` — владелец
-    - `g` — группа
-    - `o` — остальные
-    - `a` — все
+??? tip "Числовой режим"
+    Сумма: r=4, w=2, x=1 → например **755** = `rwxr-xr-x`, **644** = `rw-r--r--`.
 
----
-
-??? tip "🔢 chmod (числовой режим)"
-
-    ### 🔢 chmod (числовой режим)
     ```bash
     chmod 644 file
-    chmod 755 file
-    chmod 640 file
-    chmod 765 dir
-
-    chmod -R 765 dir
+    chmod 755 script.sh
+    chmod -R 750 dir
     ```
-
-    📌 Значения:
-    - 4 → read (r)
-    - 2 → write (w)
-    - 1 → execute (x)
 
 ---
 
-## 👤 Владение файлами
+## Владелец и группа
 
-??? tip "👤 Владелец и группа"
-
-    ### 👤 Владелец и группа
+??? tip "chown, chgrp"
     ```bash
     chown user file
     chown user:group file
     chown :group file
-
-    chown -R user dir
-    ```
-
-    ```bash
+    chown -R www-data:www-data /var/www
     chgrp group file
     ```
 
 ---
 
-## 🔑 Специальные биты
+## SUID, SGID, sticky
 
-??? tip "🔑 Специальные биты"
+??? tip "Спецбиты"
+    | Бит | На файле | На каталоге |
+    |-----|----------|---------------|
+    | **SUID** `u+s` | процесс с правами **владельца** файла | редко |
+    | **SGID** `g+s` | группа процесса = группа файла | новые файлы наследуют группу каталога |
+    | **Sticky** `+t` (часто **1777**) | — | удалить чужой файл в каталоге может только владелец файла (`/tmp`) |
 
-    ### 🔑 Специальные биты
-
-    #### SUID
     ```bash
-    chmod u+s file
-    ```
-
-    #### SGID
-    ```bash
-    chmod g+s dir
-    ```
-
-    #### Sticky bit
-    ```bash
-    chmod +t dir
-    ```
-
-    📌 Пример:
-    ```bash
+    chmod u+s binary
+    chmod g+s shared_dir
+    chmod +t /tmp
     ls -ld /tmp
     ```
 
----
-
-??? tip "🔍 s и S"
-
-    ### 🔍 s и S
-    - `s` → есть execute
-    - `S` → нет execute
-
-    ```text
-    -rwsr-xr-x
-    -rwSr--r--
-    ```
+    В `ls` буква **`s`** у `x` значит setuid/setgid **с** execute; **`S`** — бит выставлен **без** execute.
 
 ---
 
-## ⚙️ Права по умолчанию (umask)
+## umask
 
-??? tip "⚙️ umask"
-
-    ### ⚙️ umask
+??? tip "Маска по умолчанию"
     ```bash
     umask
     umask 022
     ```
 
-    📌 Принцип расчёта:
-    ```text
-    файл: 666 - umask
-    папка: 777 - umask
-    ```
+    Обычно права нового **файла** ≈ `666 & ~umask`, **каталога** ≈ `777 & ~umask`.
 
-    📊 Пример:
-    ```bash
-    umask 022
-    ```
+    Типично: **022** → файлы `644`, каталоги `755`; **077** → `600` / `700`.
 
-    ```text
-    файл: 666 - 022 = 644 → rw-r--r--
-    папка: 777 - 022 = 755 → rwxr-xr-x
-    ```
-
-    📊 Частые значения:
-    ```text
-    umask 022 → 644 / 755
-    umask 002 → 664 / 775
-    umask 077 → 600 / 700
-    ```
-
-    ⚠️ Важно:
-    ```bash
-    umask 000
-    ```
-
-    ```text
-    файл всё равно будет: 666 (rw-rw-rw-)
-    ```
+    Задаётся в `~/.bashrc`, `~/.profile`, `/etc/profile`, `/etc/bash.bashrc`.
 
 ---
 
-??? tip "📍 Где задаётся umask"
+## ACL
 
-    ### 📍 Где задаётся umask
-    ```bash
-    ~/.bashrc
-    ~/.profile
-
-    /etc/profile
-    /etc/bash.bashrc
-    ```
-
-    📌 Применяется только к новым файлам и папкам
-
----
-
-## 🔐 Расширенные права (ACL)
-
-??? tip "🔐 ACL (расширенные права)"
-
-    ### 🔐 ACL (расширенные права)
+??? tip "getfacl / setfacl"
     ```bash
     sudo apt install acl
-    ```
-
-    ```bash
     getfacl file
+    setfacl -m u:alice:rwx file
+    setfacl -m g:devs:rw file
+    setfacl -x u:alice file
     ```
 
+    Дефолтные ACL на каталог (наследование для новых файлов):
+
     ```bash
-    setfacl -m u:user:rwx file
-    setfacl -m g:group:rw file
-
-    setfacl -x u:user file
-    ```
-
----
-
-??? tip "📁 ACL для директорий"
-
-    ### 📁 ACL для директорий
-    ```bash
-    setfacl -m u:user:rwx dir
-    setfacl -d -m u:user:rwx dir
-    ```
-
-    📌 Права по умолчанию для новых файлов
-
----
-
-## 🚀 Практика
-
-??? tip "🚀 Типичный workflow"
-
-    ### 🚀 Типичный workflow
-    ```bash
-    touch file
-    chmod 660 file
-    chown user:group file
-
-    ls -l file
+    setfacl -d -m u:alice:rwx dir
     ```
 
 ---
 
-??? tip "🔐 Практика (проект)"
+## Практика
 
-    ### 🔐 Практика (проект)
+??? tip "Файл и общий каталог"
     ```bash
+    touch f
+    chmod 660 f
+    chown user:group f
+
     mkdir project
     chown user:dev project
-
     chmod 775 project
     chmod g+s project
-
-    setfacl -m u:other:r-x project
     ```
+
+---
+
+## Связь с учебником
+
+Базовый **`ls`** — урок **Терминал**. Пользователи и группы — **Пользователи и группы**.

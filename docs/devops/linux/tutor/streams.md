@@ -1,219 +1,118 @@
+# Потоки ввода-вывода и конвейеры
 
-## 🔄 Потоки и обработка данных
+**stdin (0)**, **stdout (1)**, **stderr (2)**; перенаправления, объединение потоков, `|`, `tee`, логические операторы.
 
-??? tip "🔢 Потоки ввода-вывода (stdin, stdout, stderr)"
-    ### 🔢 Потоки ввода-вывода (stdin, stdout, stderr)
+---
 
-    В Linux каждый процесс использует три стандартных потока:
+## Три потока
+
+??? tip "Нумерация"
+    По умолчанию в интерактивном терминале stdin — клавиатура, stdout и stderr — экран.
 
     ```text
-    0 → stdin   (ввод)
-    1 → stdout  (вывод)
-    2 → stderr  (ошибки)
+    0 → stdin
+    1 → stdout
+    2 → stderr
     ```
 
-    📌 По умолчанию:
+---
 
-    - stdin → клавиатура
-    - stdout → терминал
-    - stderr → терминал
+## Перенаправление в файл
 
-
-??? tip "📥 stdin (ввод данных)"
-    ### 📥 stdin (ввод данных)
-
-    stdin — поток входных данных для программы.
-
+??? tip ">, >>, отдельно stderr"
     ```bash
-    cat
+    echo hello > file
+    echo world >> file
+    command 1> out.txt
+    ls /нет_такого 2> errors.log
     ```
 
-    📌 Ввод вручную:
+---
 
-    ```bash
-    cat > file.txt
-    ```
+## Объединение stdout и stderr
 
-    Завершение ввода:
-
-    ```bash
-    Ctrl + D
-    ```
-
-
-??? tip "📤 stdout (вывод данных)"
-    ### 📤 stdout (вывод данных)
-
-    stdout — основной поток вывода команды.
-
-    Перенаправление:
-
-    ```bash
-    echo "hello" > file.txt
-    echo "world" >> file.txt
-    ```
-
-    Явное указание:
-
-    ```bash
-    command 1> file.txt
-    ```
-
-
-??? tip "⚠️ stderr (ошибки)"
-    ### ⚠️ stderr (ошибки)
-
-    stderr — поток ошибок.
-
-    ```bash
-    ls /notfound 2> error.log
-    ```
-
-    📌 Используется для:
-    - логирования ошибок отдельно от вывода
-    - анализа проблем
-
-
-??? tip "🔀 Объединение потоков"
-    ### 🔀 Объединение потоков
-
-    Объединение stdout и stderr:
-
+??? tip "2>&1 и &>"
     ```bash
     command > all.log 2>&1
+    command &> all.log
     ```
 
-    📌 Расшифровка:
+    `2>&1` — направить stderr туда же, куда stdout. В bash `&>` — краткая запись «оба потока в один файл».
 
-    ```text
-    2>&1 → stderr направляется в stdout
-    ```
+---
 
+## /dev/null
 
-??? tip "🚫 /dev/null (чёрная дыра)"
-    ### 🚫 /dev/null (чёрная дыра)
-
-    Используется для полного игнорирования вывода.
-
+??? tip "Подавить вывод"
     ```bash
     command > /dev/null
     command 2> /dev/null
-    command > /dev/null 2>&1
+    command &> /dev/null
     ```
 
-    📌 Применение:
-    - подавить вывод
-    - убрать ошибки
-    - использовать в скриптах
+---
 
+## Конвейер и tee
 
-??? tip "🔗 Конвейер (pipe)"
-    ### 🔗 Конвейер (pipe)
-
-    Pipe передаёт stdout одной команды в stdin другой:
-
+??? tip "pipe"
     ```bash
     command1 | command2
-    ```
-
-    📌 Логика:
-
-    ```text
-    stdout → stdin
-    ```
-
-
-??? tip "🔗 Примеры pipe"
-    ### 🔗 Примеры pipe
-
-    Практическое использование:
-
-    ```bash
     ps aux | grep nginx
-    cat file.txt | grep error
     dmesg | less
+    cat file | grep error | sort | uniq
     ```
 
-
-??? tip "🧱 Цепочки команд"
-    ### 🧱 Цепочки команд
-
-    Несколько обработок подряд:
+??? tip "tee"
+    Одновременно в терминал и в файл; **`-a`** — дописать.
 
     ```bash
-    cat file.txt | grep error | sort | uniq
+    command | tee log.txt
+    command | tee -a log.txt
     ```
 
-    📌 Поток данных:
+---
 
-    ```text
-    file → grep → sort → uniq
-    ```
+## Текстовые фильтры в конвейере
 
-
-??? tip "📊 tee (раздвоение потока)"
-    ### 📊 tee (раздвоение потока)
-
-    tee позволяет:
-    - сохранить вывод в файл
-    - и показать его в терминале
-
+??? tip "cut, sort, uniq, wc, sed, awk"
     ```bash
-    command | tee file.txt
+    cut -d: -f1 /etc/passwd
+    sort file | uniq -c | sort -nr
+    wc -l file
+
+    sed 's/foo/bar/' file
+    sed '/DEBUG/d' app.log
+    awk '{print $3}' data.txt
+    awk '{s+=$1} END {print s}' nums.txt
     ```
 
+---
 
-??? tip "⚙️ Условные и логические связки команд"
-    ### ⚙️ Условные и логические связки команд
+## Логика между командами
 
-    Linux позволяет объединять команды логически:
-
+??? tip "&& || ;"
     ```bash
-    command1 && command2
-    command1 || command2
-    command1 ; command2
+    mkdir x && cd x
+    ping -c1 host || echo "нет связи"
+    echo a ; echo b
     ```
 
-    📌 Операторы:
+    - `&&` — вторая команда, если первая успешна  
+    - `||` — вторая, если первая с ошибкой  
+    - `;` — подряд, без условия
 
-    - `&&` → выполнить вторую команду, если первая успешна
-    - `||` → выполнить вторую, если первая упала
-    - `;` → выполнить последовательно независимо от результата
+---
 
-    📌 Примеры:
+## Ввод с клавиатуры в файл
 
+??? tip "cat и Ctrl+D"
     ```bash
-    mkdir test && cd test
+    cat
+    cat > file
     ```
 
-    ```bash
-    ping -c 1 google.com || echo "no connection"
-    ```
+---
 
-    ```bash
-    echo "start" ; echo "end"
-    ```
+## Связь с Bash
 
-
-??? tip "🧠 Условные конструкции (bash)"
-    ### 🧠 Условные конструкции (bash)
-
-    Используются в скриптах:
-
-    ```bash
-    if [ -f file.txt ]; then
-        echo "exists"
-    fi
-    ```
-
-    Проверки:
-
-    ```bash
-    -f file   # файл существует
-    -d dir    # директория существует
-    -z str    # строка пустая
-    ```
-
-    📌 Используется для:
-    - автоматизации
-    - проверки условий выполнения команд
+Условия `if [ -f file ]`, циклы и функции — в уроке **Bash-скрипты**.
